@@ -21,20 +21,44 @@ window.onload = function () {
     premio: premios[index],
   }));
 
+  //Precargo las imagenes
+  let imagenesPrecargadas = [];
+  // Cargamos todas las imágenes en el objeto Image
+  for (let i = 0; i < imagenes.length; i++) {
+    let img = new Image();
+    img.src = "/img/" + imagenes[i];
+    img.addEventListener("load", () => {
+      // Agregamos la imagen precargada al array de imágenes precargadas
+      imagenesPrecargadas.push(img);
+    });
+  }
+  let imgMonedas = new Image();
+  imgMonedas.src = "/img/moneda.png";
+
   let numerosActuales = [];
 
   let cantidadVentanas = document.querySelectorAll(".ventana").length;
+  document.querySelectorAll(".boton").forEach((boton) => {
+    boton.addEventListener("click", lanzarUno);
+  });
+  let modal = document.getElementById("velo");
+  let modalMensaje = document.getElementById("mensaje");
+  let modalCerrar = document.getElementById("cruz");
+  cruz.addEventListener("click", cerrar);
+  let modalCerrarSong = document.getElementById("sonido");
+  modalCerrarSong.src = "sound/youwin.mp3";
   let tirar_btn = document.getElementById("tirar");
-
   tirar_btn.addEventListener("click", lanzarInicio);
 
   function lanzarInicio() {
     numerosActuales = Array.from({ length: cantidadVentanas }, escogerNumero);
     numerosActuales.forEach((numero, index) => mostrarImagen(index, numero));
-    console.log(numerosActuales);
+    comparar();
   }
 
-  function lanzarUno() {}
+  function lanzarUno() {
+    this.style.opacity = 0.2;
+  }
 
   function escogerNumero() {
     // Escogemos un número aleatorio entre 0 y la cantidad de imágenes disponibles
@@ -53,13 +77,32 @@ window.onload = function () {
   //       .setAttribute("src", elementos[numeroImagen].imagen);
   //   }
 
-  function comparar() {}
+  function comparar() {
+    if (todosIguales) {
+      let premio = elementos[numerosActuales[0]].premio;
+      let mensaje = `Has ganado ${premio} monedas<br>`;
+      for (let j = 0; j < premio; j++) {
+        mensaje += `<img class="premio" src="/img/moneda.png">`;
+      }
+      mostrarMensaje(mensaje);
+    } else {
+      console.log("No todos los elementos del array son iguales");
+    }
+  }
 
   function actualizar() {}
 
-  function mostrarMensaje() {}
+  function mostrarMensaje(mensaje) {
+    modal.style.display = "flex";
+    modalMensaje.innerHTML = mensaje;
+    sonar();
+  }
 
-  function cerrar() {}
+  function cerrar() {
+    modal.style.display = "none";
+  }
 
-  function sonar() {}
+  function sonar() {
+    modalCerrarSong.play();
+  }
 };

@@ -6,11 +6,15 @@
 body {
   font-family: "Pacifico", sans-serif;
   margin: auto;
-  max-width: 600px;
 }
 img {
   max-width: 100%;
   vertical-align: top;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
 }
 
 #linea1 {
@@ -134,4 +138,5 @@ header {
 
 #mensaje img {
   width: 35px;
+  margin: 0 5px;
 }
